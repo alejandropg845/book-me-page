@@ -1,0 +1,9 @@
+<div *ngIf="isOpen$ | async" class="confirm-container">
+    <p>Are you sure you want to do this action?</p>
+    <div class="action-buttons">
+        <button (click)="confirmDialog.isNotConfirmed()">Cancel</button>
+        <button (click)="confirmDialog.isConfirmed()">Confirm</button>
+    </div>
+</div>
+<div *ngIf="isOpen$ | async" class="focus-confirm"></div>
+

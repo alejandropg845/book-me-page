@@ -1,0 +1,194 @@
+h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+p {
+    color: var(--text-color);
+}
+
+.no-margin-top {
+    margin-top: 0;
+}
+
+.background-online {
+    background-color: rgb(97, 255, 97);
+    border: 2px solid #3aff4b !important;
+}
+
+.background-offline {
+    background-color: rgb(255, 149, 149);
+    border: 2px solid rgb(255, 82, 82);
+}
+
+.hidden {
+    display: none;
+}
+
+.shown {
+    display: block;
+}
+
+.other-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    background-color: var(--background-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0 auto;
+    margin-top: 8rem;
+    gap: 2rem;
+    max-width: 53.2rem;
+    -webkit-box-shadow: 0px 0px 10px 0px var(--shadow-color);
+    -moz-box-shadow: 0px 0px 10px 0px var(--shadow-color);
+    box-shadow: 0px 0px 10px 0px var(--shadow-color);
+}
+
+.profile-info img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 100%;
+    border: 2px solid var(--hover-color);
+}
+
+.profile-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.blocked-user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10rem auto;
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    -webkit-box-shadow: 0px 0px 14px 0px var(--text-color);
+    -moz-box-shadow: 0px 0px 14px 0px var(--text-color);
+    box-shadow: 0px 0px 14px 0px var(--text-color);
+    width: 100%;
+    max-width: 30rem;
+}
+
+.blocked-user-container p {
+    font-size: 2rem;
+    background-color: rgb(255, 197, 197);
+    font-weight: bold;
+    padding: .5rem 2rem;
+    color: black;
+    border-radius: 2rem;
+    border: 2px solid rgb(255, 142, 142);
+    transition: ease-in-out .2s;
+    cursor: pointer;
+}
+
+.blocked-user-container p:hover {
+    background-color: rgb(255, 139, 139);
+    border: 2px solid rgb(255, 72, 72);
+}
+
+.blocked-user-container i {
+    font-size: 4rem;
+}
+
+.blocked-user-container h1 {
+    font-size: 1.5rem !important; 
+}
+
+
+.interaction-menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.interaction-menu-container p {
+    font-weight: bold;
+    padding: .5rem 1rem;
+    border: 2px solid var(--text-color);
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: ease-in-out .2s;
+}
+
+.interaction-menu-container button {
+    font-weight: bold;
+}
+
+.interaction-menu-container p:hover {
+    background-color: var(--background-color);
+}
+
+.interaction-menu-container span {
+    background-color: rgb(143, 255, 143);
+    font-weight: bold;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: 0.2rem solid var(--text-color);
+    color: black;
+}
+
+.profile-status p:nth-child(1) {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.profile-status p:nth-child(2) {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    width: max-content;
+    border-radius: 1rem;
+    width: max-content;
+    padding: .2rem 2rem;
+    color: black;
+}
+
+.interaction-menu-container button{
+    padding: .5rem 1rem;
+    cursor: pointer;
+    border: 1px solid var(--text-color);
+    border-radius: .4rem;
+}
+
+.button-block-user {
+    background-color: rgb(255, 227, 227);
+    font-weight: bold;
+    color: red;
+    transition: ease-in-out .2s;
+}
+
+.button-unlock-user {
+    background-color: rgb(255, 227, 134);
+    font-weight: bold;
+    color: black !important;
+    transition: ease-in-out .2s;
+}
+
+.button-unlock-user:hover{
+    background-color: rgb(255, 216, 88);
+}
+
+.button-block-user:hover {
+    background-color: rgb(255, 162, 162);
+}
+
+.userSentFR {
+    background-color: rgb(255, 180, 88) !important;
+}
+
+.currentUserReceivesFR {
+    background-color: rgb(78, 169, 255) !important;
+}
+
+.interaction-menu-container button:first-of-type{
+    color: red;
+}

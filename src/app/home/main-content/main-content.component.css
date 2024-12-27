@@ -1,0 +1,16 @@
+.router-content {
+    margin: 0;
+}
+
+@media (min-width:550px){
+    .router-content {
+        margin: 0;
+        margin-left: 20rem;
+    }
+}
+
+@media (min-width:768px){
+    .router-content {
+        margin-left: 26rem;
+    }
+}

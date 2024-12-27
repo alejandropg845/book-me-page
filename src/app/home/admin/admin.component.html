@@ -1,0 +1,74 @@
+<div *ngIf="authorized" class="container">
+    <header>
+        <h1>Admin Page</h1>
+    </header>
+    
+    <h2>Manage posts</h2>
+    <section class="posts-section">
+        @for (post of posts; track $index) {
+        <div class="post">
+            <img [src]="post.postImageUrl" alt="Post Image">
+            <div class="post-info">
+                <p class="description">{{post.description}}</p>
+                <button class="disable-post" (click)="deletePost(post.id)">Delete post</button>
+            </div>
+        </div>
+        }
+    </section>
+    
+    <h2>Manage users</h2>
+    <section class="accounts-section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (user of users; track $index) {
+                <tr>
+                    <td>{{user.username}}</td>
+                    <td>
+                        <button class="disable-account" (click)="disableUser(user.id)">Disable</button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+    
+    <h2>Deleted posts</h2>
+    <section class="deleted-posts-section">
+        @for (post of deletedPosts; track $index) {
+        <div class="post">
+            <img [src]="post.postImageUrl" alt="Post Image">
+            <div class="post-info">
+                <p class="description">{{post.description}}</p>
+            </div>
+        </div>
+        }
+    </section>
+    
+    <h2>Disabled users</h2>
+    <section class="disabled-users-section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (disabledUser of disabledUsers; track $index) {
+                <tr>
+                    <td>{{disabledUser}}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<app-password-dialog></app-password-dialog>
+
+<app-confirm-dialog></app-confirm-dialog>
