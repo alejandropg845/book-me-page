@@ -1,0 +1,84 @@
+
+<section class="chats-container">
+
+    <div class="search-chat-section">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" (input)="getUserChats()" [(ngModel)]="chatUsername"  placeholder="Search for chat">
+    </div>
+
+    <div class="chats-content">
+
+        @for (chat of userChats; track $index) {
+        <div class="chat-layout">
+            <div (click)="setDataToChatPreview(chat)" class="chat">
+                <img *ngIf="!chat.imageUrl" src="./assets/images/guest.png" alt="chat image">
+                <img *ngIf="chat.imageUrl" [src]="chat.imageUrl" alt="chat image">
+                <div class="chat-info">
+                    <p>{{chat.username}}</p>
+                    <p *ngIf="chat.lastChatMessage"><span style="font-style: italic;" *ngIf="chat.lastMessageUserId === userSenderId">You: </span>{{chat.lastChatMessage}}</p>
+                    <p style="font-style: italic;" *ngIf="!chat.lastChatMessage">Send the first message!</p>
+
+                    <p [@fadeInOut] *ngIf="isTyping.value === '1' && !chat.isBlockedByUser" class="typing-message">Typing...</p>
+                    <input hidden [id]="chat.otherUserId" #isTyping type="text" value="0">
+
+                </div>
+                <p *ngIf="chat.noReadMessages && chat.lastMessageUserId !== userSenderId">{{chat.noReadMessages}}</p>
+            </div>
+            <div *ngIf="chat.isBlockedByUser" (click)="unlockUser(chat.otherUserId.toString())" class="layer-block">
+                <i class="fa-solid fa-unlock"></i>
+                <p>Unlock</p>             
+            </div>
+        </div>
+        }
+    </div>
+
+    <p [@fadeInOut] *ngIf="userChats?.length === 0" class="no-chats-message">Follow someone to get your first chat!</p>
+
+    <div [hidden]="!homeService.showPreview" class="chat-preview-container">
+
+        <div class="chat-preview-content">
+    
+            <div class="receiver-info">
+                <div class="xxlas" (click)="closePreview()">
+                    <i class="fa-sharp fa-solid fa-arrow-left"></i>
+                    <p>Back</p>
+                </div>
+                <div *ngIf="chatData.chatMessages">
+                    <img *ngIf="!chatData.imageUrl" src="./assets/images/guest.png" alt="chat image">
+                    <img *ngIf="chatData.imageUrl" [src]="chatData.imageUrl" alt="chat image">
+                    <div class="user-info-chat-preview">
+                        <p>{{chatData.username}}</p>
+                        <p [hidden]="!isTyping || chatData.isBlockedByUser">Typing...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div #messages_container class="messages-container">
+                @for (message of chatData.chatMessages; track message; let i = $index) {
+                <div class="message-container" id="message{{i}}">
+
+                    <p [class]="verifyUserSenderMessage(message.userId)?'sent-date':'received-date'">{{message.sentAt| date: 'y-MMMM-dd'}} at {{message.sentAt | date: 'HH:mm'}}</p>
+                    <p [class]="verifyUserSenderMessage(message.userId)?'sent-message':'received-message'">{{message.message}}</p>
+                    
+                    <p class="is-message-read" *ngIf="verifyUserSenderMessage(message.userId) && !message.isMarkedAsRead">Not read<i [ngClass]="{'check-notread':!message.isMarkedAsRead}"  class="fa-solid fa-check"></i></p>
+
+                    <p [ngClass]="{'is-read':message.isMarkedAsRead}" class="is-message-read" *ngIf="verifyUserSenderMessage(message.userId) && message.isMarkedAsRead">Read<i [ngClass]="{'check-read': message.isMarkedAsRead}" class="fa-solid fa-check"></i></p>
+                    <i *ngIf="!message.chatId" class="fa-solid fa-spinner"></i>
+                </div>
+                }
+                <p *ngIf="chatData.lastChatMessage && moreMessages && chatData.messagesNumber > 15" (click)="loadMoreMessages()" class="load-messages">Load more messages</p>
+            </div>
+    
+            <div class="send-message-interface">
+                <textarea #textareaMessage (input)="onTypingMessage()" (keydown)="sendMessageKeyboardEvent($event, message)" #message type="text" placeholder="Send a message"></textarea>
+                <button type="submit" (click)="sendMessage(message)"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            
+        </div>
+    </div>
+
+</section>
+
+<div [hidden]="!homeService.showPreview" class="focus-chat"></div>
+
+

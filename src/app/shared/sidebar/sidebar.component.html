@@ -1,0 +1,174 @@
+<aside>
+    <div class="header-info">
+        <div class="search-content">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input autocomplete="off" (click)="homeService.isUserFromSearchClicked = false" id="input-search" type="search" placeholder="Search for users ..." [(ngModel)]="searchKeywords" (input)="searchUser()">
+            <div [@fadeInOut] 
+            *ngIf="searchUsersResponse.length > 0 && searchKeywords.length > 0 && homeService.isUserFromSearchClicked === false" 
+            class="users-list">
+                @for (user of searchUsersResponse; track $index) {
+                
+                    <div [routerLink]="['/bookmecontent/main-content/profile', user.id]" 
+                        class="user-list" (click)="homeService.isUserFromSearchClicked = true">
+                        <img *ngIf="!user.imageUrl" src="./assets/images/guest.png" alt="user image search">
+                        <img *ngIf="user.imageUrl" [src]="user.imageUrl" alt="user image search">
+                        <p class="username-list">{{user.username}}</p>
+                        <p [class]="(user.status === 'online'?'green-color':'red-color')"><i class="fa-regular fa-circle-dot"></i></p>
+                    </div>
+                
+                }
+            </div>
+        </div>
+        <div class="profile-info">
+            <img *ngIf="!userInfo.imageUrl" src="./assets/images/guest.png" alt="profile image">
+            <img *ngIf="userInfo.imageUrl" [src]="userInfo.imageUrl" alt="profile image">
+            <div>
+                <p>{{userInfo.username}}</p>
+                <p *ngIf="userInfo.status" [class]="(userInfo.status === 'online'?'background-online':'background-offline')"><i class="fa-regular fa-circle-dot"></i>{{userInfo.status | titlecase}}</p>
+            </div>
+            
+
+        </div>
+        <div (click)="homeService.isNotificationIconClicked = !homeService.isNotificationIconClicked" class="notification-container">
+            <i class="fa-regular fa-bell"></i>
+            <p class="notification-count">{{notisNumber}}</p>
+            <p class="notifications-p hidden">Notifications</p>
+        </div>
+        <div [@fadeInOut] *ngIf="homeService.isNotificationIconClicked" class="notifications-popup-container">
+
+            <p *ngIf="userNotifications.length === 0" 
+            class="no-notis">No new notifications at the moment</p>
+
+            <p (click)="markNotificationsAsRead()" 
+            *ngIf="notisNumber > 0" 
+            class="mark-asread">Mark all as read</p>
+            
+            <!--* 6 tipos de notificacion-->
+
+            @for (notification of userNotifications; track $index) {
+
+                <div [ngClass]="{'bg-blue':!notification.isRead}"
+                [class.pointer]="notification.type !== 'FollowRequest' && notification.status !== 'Accepted'" 
+                [routerLink]="notification.postId ? ['/bookmecontent/main-content/single-post', notification.postId] : null" 
+                (click)="markSingleNotificationAsRead(notification.id)" class="notification-popup-container">
+                    <div class="notification-image-layout">
+                        <img *ngIf="!notification.imageUrl" src="./assets/images/guest.png" alt="profile image">
+                        <img *ngIf="notification.imageUrl" [src]="notification.imageUrl" alt="profile image">
+                        <i *ngIf="notification.type === 'PostLiked'
+                                || notification.type === 'LikedComment'
+                                || notification.type === 'ReplyLiked'" class="fa-regular fa-thumbs-up"></i>
+                        <i *ngIf="notification.type === 'Comment' 
+                            || notification.type === 'CommentReply'" class="fa-regular fa-comment"></i>
+                    </div>
+                    <div class="notification-info-layout" *ngIf="notification.type !== 'FollowRequest'">
+                        <p>{{notification.username}}
+                            <span *ngIf="notification.type === 'PostLiked'">has liked your post</span>
+                            <span *ngIf="notification.type === 'Comment'">has commented your post</span>
+                            <span *ngIf="notification.type === 'LikedComment'">has liked your comment</span>
+                            <span *ngIf="notification.type === 'CommentReply'">has replied to your comment</span>
+                            <span *ngIf="notification.type === 'ReplyLiked'">has liked your reply</span>
+                        </p>
+                    </div>
+                    <div class="notification-info-layout" *ngIf="notification.type === 'FollowRequest'">
+                        <p *ngIf="notification.status === 'Pending'">{{notification.username}} has sent a follow request</p>
+                        <p *ngIf="notification.status === 'Accepted'">{{notification.username}} has accepted your follow request</p>
+                        <div class="follow-request-buttons">
+                            <button 
+                            (click)="acceptFollowRequest(notification.actorId, notification.id)" 
+                            *ngIf="notification.status === 'Pending'">Accept</button>
+                            <button (click)="rejectFR(notification.actorId)" 
+                            *ngIf="notification.status === 'Pending'">Reject</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+
+        </div>
+    </div>
+    <div (click)="homeService.isUserFromSearchClicked = true; homeService.isNotificationIconClicked = false" class="nav-bar">
+        <a routerLink="/bookmecontent/main-content/homepage"><i class="fa-solid fa-house"></i>Home</a>
+        <a routerLink="/bookmecontent/main-content/chats"><i class="fa-solid fa-comments"></i>Chats</a>
+        <a routerLink="/bookmecontent/main-content/my-profile"><i class="fa-solid fa-user"></i>My profile</a>
+        <a (click)="showAddPostForm = true" style="cursor: pointer;"><i class="fa-solid fa-plus"></i>Add post</a>
+        <a style="cursor: pointer;" (click)="homeService.logOut()">
+            <span *ngIf="userInfo.username !== 'guest' && userInfo.id > 0">Log out</span>
+            <span *ngIf="userInfo.username === 'guest' && userInfo.id === 0">Log in</span>
+        </a>
+
+    </div>
+
+    <div class="notifications-signal-popup-container">
+        <!--^ Message notification -->
+        @for (notification of userNotificationsPopup; track notification; let i = $index) {
+        <div
+        [routerLink]="
+        notification.notiType === 'M' 
+        ? '/bookmecontent/main-content/chats' 
+        : (notification.postId === 0 && notification.notiType !== 'M' 
+          ? ['/bookmecontent/main-content/profile', notification.userId]
+          : ['/bookmecontent/main-content/single-post', notification.postId])"
+        [@fadeInOut] class="message-popup-notification" #divNotification>
+            <div class="img-message-popup-container">
+                <img *ngIf="!notification.imageUrl" src="./assets/images/guest.png" alt="message img user">
+                <img *ngIf="notification.imageUrl" [src]="notification.imageUrl" alt="message img user">
+                <div class="message-popup-icons">
+                    <i *ngIf="notification.notiType === 'L'" class="fa-regular fa-thumbs-up"></i>
+                    <i *ngIf="notification.notiType === 'C'" class="fa-regular fa-comment"></i>
+                    <i *ngIf="notification.notiType === 'M'" class="fa-regular fa-comments"></i>
+                    <i *ngIf="notification.notiType === 'LC'" class="fa-regular fa-thumbs-up"></i>
+                    <i *ngIf="notification.notiType === 'FRAccepted'" class="fa-solid fa-user-plus"></i>
+
+                </div>
+            </div>
+            <div [ngClass]="{'lc-message':notification.notiType === 'LC'}" class="message-popup-info">
+                <p>{{notification.username}}</p>
+                <p class="message-popup-content">
+                    {{notification.message}} 
+                </p>
+            </div>
+            <div class="buttons-message-popup">
+                <p (click)="hideMessagePopup(i)">Hide</p>
+            </div>
+        </div>
+        }
+    </div>
+
+</aside>
+
+<div *ngIf="showAddPostForm" class="focus-postform" [@fadeInOut]></div>
+
+
+<!--Form for adding post-->
+<div (click)="hidePopups()" *ngIf="showAddPostForm" class="form-container" [@fadeInOut]>
+
+    <div class="form-content">
+        <p class="advertise-post">Please, do not upload explicit content, be friendly :)</p>
+        <form [formGroup]="postForm" (submit)="onSubmitPost(inputFile)">
+            <div class="upload-image-container">
+                <label (drop)="onDropFiles($event)" (dragleave)="onDragLeave($event)" (dragover)="onDragOver($event)" for="upload-file"><i class="fa-solid fa-plus"></i>Select image</label>
+                <div>
+                    
+                    <img *ngIf="uploadedFile" class="img-preview" #img [src]="setValueToSrcAttribute(img)" alt="image preview">
+                    <i *ngIf="uploadedFile" (click)="deleteUploadedImage(inputFile)" class="fa-solid fa-x img-delete-icon"></i>
+                    
+                </div>
+                <input #inputFile id="upload-file" type="file" hidden (change)="onSelectedImage($event)">
+            </div>
+        
+            <div class="description-container">
+                <textarea formControlName="description" #textarea maxlength="300" (input)="countCharacters(textarea, paragraph)" placeholder="Description"></textarea>
+                <p #paragraph>{{count}} / 300</p>
+            </div>
+
+            <div class="button-container">
+                <p (click)="showAddPostForm = false;
+                deleteUploadedImage(inputFile)">Cancel</p>
+                <button [ngClass]="{'disableButton':isLoadingPost}" #addPostButton type="submit">Submit <i *ngIf="isLoadingPost" class="fa-solid fa-spinner fa-spin"></i></button>
+            </div>
+            
+        </form>
+        
+    </div>
+
+</div>

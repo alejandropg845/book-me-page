@@ -1,0 +1,29 @@
+<div (click)="hidePopups()" *ngIf="userInfo" class="my-profile-container">
+
+    <div class="profile-info">
+        <div class="images-wrapping-container">
+            <img *ngIf="!userInfo.user.imageUrl" src="./assets/images/guest.png" alt="profile image">
+            <img *ngIf="userInfo.user.imageUrl" [src]="userInfo.user.imageUrl" alt="profile image">
+            <div *ngIf="isChangingPic" class="spinner-overlay">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+        </div>
+        <div>
+            <div class="layout">
+                <label *ngIf="!isChangingPic" class="label-pic" for="pic-input">Change profile picture</label>
+                <div [class]="(isDarkMode?'bg-white':'bg-yellow')" class="switch-theme-container" (click)="toggleDarkMode()">
+                    <p>
+                        <i *ngIf="isDarkMode" class="fa-solid fa-sun"></i>
+                        <i *ngIf="!isDarkMode" class="fa-solid fa-moon"></i>
+                        Switch to <span *ngIf="isDarkMode">light mode</span> <span *ngIf="!isDarkMode">night mode</span>
+                    </p>
+                </div>
+                <p *ngIf="isChangingPic" class="analyzing-image">Analyzing image content...</p>
+            </div>
+        </div>
+        <input id="pic-input" hidden type="file" class="not-click" (change)="onSelectedImage($event)">
+    </div>
+
+    <app-home-page [posts]="userInfo.userPosts" [isMyProfile]="true"></app-home-page>
+
+</div>

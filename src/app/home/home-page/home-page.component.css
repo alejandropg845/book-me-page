@@ -1,0 +1,678 @@
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.posts-container {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 8rem;
+    margin-bottom: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-clicks {
+    pointer-events: none;
+}
+
+.posts-container .fa-trash-can {
+    position: absolute;
+    right: 0rem;
+    top: 0rem;
+    font-size: 2rem;
+    padding: .5rem 1rem 1rem 1.5rem;
+    border-bottom-left-radius: 3rem;
+    cursor: pointer;
+    transition: all ease-in-out .2s;
+}
+
+.posts-container .fa-trash-can:hover {
+    background-color: red;
+    padding: .5rem 1.5rem 1rem 2rem;
+    color: var(--text-color);
+}
+
+.homepage-container h1 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: var(--text-color);
+}
+
+.no-posts-p {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    width: max-content;
+    text-align: left;
+    font-style: italic;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 1rem;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-left: 1rem;
+}
+
+.author-info p{
+    font-size: 1.5rem;
+    margin-bottom: .5rem;
+    color: var(--text-color);
+}
+
+.author-info p:nth-child(2) {
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: var(--hover-color);
+    padding: 0 .5rem;
+    border-radius: .8rem;
+}
+
+.profile-info img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.posted-date-comment {
+    margin-bottom: .5rem;
+}
+
+.postinfo-container img {
+    height: 22rem;
+    width: 100%;
+    object-fit: cover;
+}
+
+.postinfo-container p{
+    padding: 1rem;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    word-wrap: break-word;
+    word-break: keep-all;
+}
+
+.post-container {
+    position: relative;
+    background-color: var(--background-color);
+    border-radius: 1rem;
+    -webkit-box-shadow: 0px 0px 12px 0px var(--shadow-color);
+    -moz-box-shadow: 0px 0px 12px 0px var(--shadow-color);
+    box-shadow: 0px 0px 12px 0px var(--shadow-color);
+    margin-bottom: 2rem;
+    max-width: 74rem;
+}
+
+.disableButton {
+    pointer-events: none;
+}
+
+.interaction-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 1rem 0;
+    position: relative;
+}
+
+.interaction-menu::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: .1rem;
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    background-color: rgb(107, 107, 107);
+}
+
+.interaction-menu div {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.interaction-menu div:last-of-type {
+    cursor: auto;
+}
+
+.interaction-menu div i {
+    margin-right: .4rem;
+    color: var(--text-color);
+}
+
+.interaction-menu p {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.interaction-menu div:first-of-type {
+    cursor: pointer;
+}
+
+.interaction-menu .like-button {
+    user-select: none;
+    color: var(--text-color);
+}
+
+.isPostLiked {
+    color: rgb(0, 153, 255) !important;
+    font-weight: bold;
+}
+
+.isNotPostLiked {
+    color: black;
+    font-weight: normal;
+}
+
+.comments-container {
+    position: fixed;
+    z-index: 12;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 50rem;
+}
+
+.comments-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--background-color);
+    width: 100%;
+    min-width: 30rem;
+    height: 100%;
+    border-radius: 2rem;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-bottom: 40rem;
+}
+
+
+.comments-content-padding {
+    padding-bottom: 13rem;
+}
+
+.comment {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+}
+
+.comment p, .comment i {
+    color: var(--text-color);
+}
+
+.delete-comment-container {
+    position: absolute;
+    right: 0rem;
+    top: 0rem;
+}
+
+.delete-reply-container {
+    position: absolute;
+    right: -1rem;
+    top: -8rem;
+}
+
+.delete-reply-container i {
+    font-size: 1.4rem !important;
+}
+
+.comment img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 100%;
+    padding: .5rem;
+}
+
+.more-comments-paragraph {
+    text-align: center;
+    font-weight: bold;
+    padding: .5rem 2rem;
+    border: 1px solid var(--hover-color);
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: ease-in-out .2s;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    display: none;
+    color: var(--text-color);
+}
+
+.more-comments-paragraph:last-of-type {
+    display: block;
+}
+
+.more-comments-paragraph:hover {
+    background-color: var(--background-color);
+}
+
+.comment-replies-container {
+    margin-top: 1rem;
+    display: flex;
+}
+
+.reply-user-info span{
+    font-weight: bold;
+    
+}
+
+.comment-info p:nth-child(1) {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.reply-info {
+    width: 20rem;
+}
+
+.reply-info p, .comment-info p {
+    word-wrap: break-word;
+    word-break: keep-all;
+}
+
+.posted-date-comment {
+    background-color: var(--hover-color) !important;
+    padding: .2rem 1rem;
+    font-weight: 700;
+    border-radius: 1rem;
+    width: max-content;
+}
+
+.comment-info p:nth-child(3) {
+    font-size: 1.4rem;
+    width: 25rem;
+}
+
+.show-replies {
+    border: 1px solid var(--text-color);
+    border-radius: 2rem;
+    padding: .5rem 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    font-size: 1.2rem !important;
+    transition: ease .2s;
+}
+
+.show-replies:hover {
+    background-color: var(--hover-color);
+}
+
+.comment-interactions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+.comment-interactions-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-interactions div{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.comment-interactions i {
+    margin-right: .5rem;
+    color: var(--text-color);
+}
+
+.focus-comments {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.288);
+    z-index: 11;
+}
+
+.reply-comment-interface {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 1rem;
+    left: 0rem;
+    right: 0rem;
+    width: 100%;
+    padding: 0 1rem;
+    background-color: var(--background-color);
+}
+
+.reply-comment-interface div {
+    width: 100%;
+}
+
+.reply-comment-interface i {
+    font-size: 2rem;
+    margin: 1rem;
+    cursor: pointer;
+}
+
+.other-user-post-image {
+    position: relative;
+}
+
+.other-user-post-image p {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.527);
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.reply-comment-interface i:hover {
+    font-weight: bold;
+}
+
+.reply-comment-interface textarea {
+    resize: none;
+    padding: .5rem;
+    width: 100%;
+    height: 10rem;
+    font-size: 1.3rem;
+    border-radius: .5rem;
+    background-color: var(--input-color);
+    color: var(--text-color);
+}
+
+.reply-comment-interface span{
+    font-weight: bold;
+}
+
+.reply-comment-interface p {
+    font-size: 1.4rem;
+    width: max-content;
+}
+
+.p-no-comments {
+    font-size: 3rem;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.show-description-button {
+    font-weight: bold;
+    text-decoration: underline;
+    width: max-content;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* .show-comments-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem !important;
+    font-weight: bold;
+    padding: .5rem 2rem !important;
+    margin: 1rem;
+    background-color: var(--background-color);
+    border: .1rem solid var(--text-color);
+    border-radius: 1rem;
+    width: max-content;
+    cursor: pointer;
+} */
+
+.comment-interactions {
+    position: relative;
+}
+
+/** hide add comment interface **/
+.hci {
+    display: none !important;
+}
+
+
+/** show add comment interface **/
+.shi {
+    display: flex;
+}
+
+/** show focus add comment interface **/
+.sfi {
+    display: block !important;
+}
+
+/** show comments container **/
+.scc {
+    display: block;
+}
+
+/** hide comments container **/
+.hcc {
+    display: none;
+}
+
+.red-color {
+    color: red !important;
+}
+
+.close-commenting-icon {
+    position: absolute;
+    top: 1rem;
+    right: 0rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-comments-icon {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.add-comment-interface {
+    position: fixed;
+    height: 20rem;
+    width: 30rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 12;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 1rem;
+    -webkit-box-shadow: 0px 0px 13px 0px var(--shadow-color);
+    -moz-box-shadow: 0px 0px 13px 0px var(--shadow-color);
+    box-shadow: 0px 0px 13px 0px var(--shadow-color);
+}
+
+.add-comment-interface p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.add-comment-interface p:nth-child(2){
+    background-color: red;
+}
+
+.add-comment-interface textarea {
+    resize: none;
+    width: 100%;
+    height: 13rem;
+    margin: 1rem 0;
+    border-radius: 1rem;
+    padding: .5rem 1rem;
+    background-color: var(--input-color);
+    color: var(--text-color);
+}
+
+.add-comment-interface button {
+    padding: .5rem 2rem;
+    font-weight: bold;
+    border-radius: 1rem;
+    border: 2px solid black;
+    cursor: pointer;
+    color: black;
+}
+
+.focus-adding-comment {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.322);
+    z-index: 11;
+}
+
+
+
+@media (min-width:550px) {
+
+    .homepage-container {
+        margin-top: 0;
+    }
+    
+    .comments-content {
+        width: 100%;
+        height: 50rem;
+    }
+    
+    .comment img {
+        width: 7rem;
+        height: 7rem;
+        object-fit: cover;
+        border-radius: 100%;
+        padding: .5rem;
+    }
+    
+    .comment-info p:nth-child(1) {
+        font-size: 1.4rem;
+    }
+    
+    .posted-date-comment {
+        font-size: 1.2rem;
+    }
+    
+    .comment-info p:nth-child(3) {
+        font-size: 1.5rem;
+        width: 40rem;
+    }
+    
+    
+    .comment-interactions {
+        font-size: 1.4rem;
+    }
+
+    .add-comment-interface {
+        height: 25rem;
+        width: 40rem;
+    }
+    
+    .add-comment-interface p{
+        font-size: 1.5rem;
+    }
+    
+    .reply-info {
+        width: 30rem;
+    }
+    
+}
+
+@media (min-width:768px) {
+    
+    .postinfo-container img {
+        height: 32rem;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .postinfo-container p {
+        font-size: 1.6rem;
+    }
+
+    .author-info p:nth-child(1) {
+        font-size: 1.8rem;
+    }
+
+    .author-info p:nth-child(2) {
+        font-size: 1.5rem;
+    }
+
+    .comment-info p:nth-child(3) {
+        font-size: 1.5rem;
+        width: 40rem;
+    }
+
+    .interaction-menu p, .interaction-menu i{
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width:990px) {
+
+    .postinfo-container img {
+        height: 40rem;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .postinfo-container p {
+        font-size: 1.8rem;
+    }
+
+    .add-comment-interface {
+        top: unset;
+        left: unset;
+        position: absolute;
+        bottom: -38rem;
+        right: -14rem;
+        width: 30rem;
+        height: 25rem;
+        margin-bottom: 2rem;
+    }
+
+
+}
+
+.xyz {
+    font-size: .1rem;
+    display: flex;
+    justify-content: flex-end;
+    border: none;
+    background-color: var(--background-color);
+    color: var(--background-color);
+    outline: none;
+}

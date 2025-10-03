@@ -1,0 +1,60 @@
+.confirm-container {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
+    width: 100%;
+    margin: 26rem auto;
+    gap: 1rem;
+    font-size: 1.3rem;
+    border-radius: 1rem;
+    -webkit-box-shadow: 0px 0px 9px 1px var(--hover-color);
+    -moz-box-shadow: 0px 0px 9px 1px var(--hover-color);
+    box-shadow: 0px 0px 9px 1px var(--hover-color);
+    max-width: 33rem;
+}
+
+.focus-confirm {
+    background-color: rgba(0, 0, 0, 0.39);
+    position: fixed;
+    z-index: 50;
+    inset: 0;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.action-buttons button {
+    padding: .5rem 2rem;
+    border: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: ease .2s;
+    border-radius: .5rem;
+    font-weight: bold;
+}
+
+.action-buttons button:hover {
+    border: 1px solid var(--hover-color);
+}
+
+.action-buttons button:nth-child(1){
+    background-color: rgb(184, 184, 184);
+}
+
+.action-buttons button:nth-child(2){
+    background-color: rgb(255, 255, 255);
+}
+
+@media (min-width:430px){
+    .confirm-container {
+        font-size: 1.6rem;
+    }
+}

@@ -1,0 +1,121 @@
+h1 {
+    text-align: center;
+    color: var(--text-color);
+}
+
+input {
+    border: 1px solid var(--text-color);
+    background-color: var(--input-color);
+    color: var(--text-color);
+    border-radius: 1rem;
+    font-size: 1.4rem;
+    padding: .5rem 1rem;
+}
+
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.random-account-paragraph {
+    font-size: 1.7rem;
+    color: var(--text-color);
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 10px 0px var(--shadow-color);
+    -moz-box-shadow: 0px 0px 10px 0px var(--shadow-color);
+    box-shadow: 0px 0px 10px 0px var(--shadow-color);
+}
+
+button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 1rem !important;
+    font-size: 1.4rem !important;
+    padding: .5rem 2rem !important;
+    cursor: pointer;
+    transition: ease-in-out .2s;
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+.register-content {
+    background-color: var(--background-color);
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    -webkit-box-shadow: 0px 0px 10px 0px var(--shadow-color);
+    -moz-box-shadow: 0px 0px 10px 0px var(--shadow-color);
+    box-shadow: 0px 0px 10px 0px var(--shadow-color);
+}
+
+.password-container {
+    position: relative;
+}
+
+.register-icons {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.register-content form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-content form input {
+    margin-bottom:1rem;
+}
+
+.register-content form button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.register-content form p {
+    word-break: normal;
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+}
+
+.spans {
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--text-color);
+}
+
+@media (min-width:520px){
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    input {
+        font-size: 1.8rem;
+        padding: .5rem;
+    }
+
+    button {
+        padding: 0.5rem 3rem;
+        font-size: 1.8rem;
+    }
+
+    p {
+        font-size: 2.5rem;
+    }
+
+    .register-icons {
+        font-size: 1.8rem;
+    }
+}

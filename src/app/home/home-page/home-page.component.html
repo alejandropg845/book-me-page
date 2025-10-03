@@ -1,0 +1,155 @@
+<div class="homepage-container" (click)="hidePopups()">
+
+    <div *ngIf="posts" class="posts-container"> 
+        <h1 style="text-align: center; min-width: 11.8rem;" *ngIf="isMyProfile">Your posts</h1>
+        <p *ngIf="posts.length === 0" class="no-posts-p">No posts at the moment...</p>
+        @for (post of posts; track post; let i = $index) {
+        <article class="post-container">
+            <div class="profile-info">
+
+                <a [routerLink]="['/bookmecontent/main-content/profile', post.postUserId]">
+                    <img style="cursor: pointer;" *ngIf="post.authorImageUrl" [src]="post.authorImageUrl" alt="user image">
+                    <img style="cursor: pointer;" *ngIf="!post.authorImageUrl" src="./assets/images/guest.png" alt="user guest image">
+                </a>
+                <div class="author-info">
+                    <a [routerLink]="['/bookmecontent/main-content/profile', post.postUserId]">
+                        <p style="cursor: pointer;">{{post.username}}</p>
+                    </a>
+                    <p>Posted on {{ post.postedDate | date: 'y-MMMM-dd' }} at {{ post.postedDate | date: 'HH:mm' }}</p>
+
+                </div>
+            </div>
+            <div class="postinfo-container">
+                <img [src]="post.postImageUrl" alt="post image">
+                <p>{{post.description}}</p>
+            </div>
+            <div class="interaction-menu">
+                <div (click)="likePost(post)">
+                    <i [ngClass]="{'isPostLiked': post.isLikedByUser}" class="fa-regular fa-thumbs-up"></i>
+                    <p class="like-button" [ngClass]="{'isPostLiked': post.isLikedByUser}">Like ({{post.postLikes}})</p>
+                </div>
+                <div (click)="showAddComment(ce, fac)" style="cursor: pointer;">
+                    <i class="fa-regular fa-comment"></i>
+                    <p>Add comment</p>
+                </div>
+                <div (click)="getPostComments(post.id)">
+                    <i class="fa-regular fa-comments"></i>
+                    <p>Comments ({{post.commentsNumber}})</p>
+                    <i class="fa fa-spinner fa-spin" [attr.postId]="post.id" style="margin-left: .5rem;" hidden #loadingCommentsIcon></i>
+                </div>
+                <div #ce class="add-comment-interface hci">
+                    <p>You are commenting on {{post.username}}'s post</p>
+                    <textarea #content placeholder="Your comment..." (keydown)="onKeySendComment($event, post.id, content.value, post.postUserId, ce)" (input)="countCharacters(content, ppp)"></textarea>
+                    <p #ppp>{{this.contentLength}} / 500</p>
+                    <button [ngClass]="{'disableButton':isAddingComment}" type="button" (click)="addComment(post.id, content.value, post.postUserId, ce)">Submit <i *ngIf="isAddingComment" style="color: black;" class="fa fa-spinner fa-spin"></i></button>
+                    <i (click)="closeAddComment(ce, fac)" class="fa-solid fa-x close-commenting-icon"></i>
+                </div>
+            </div>
+            <i *ngIf="isMyProfile" (click)="deletePost(post.id)" class="fa-regular fa-trash-can"></i>
+        </article>
+        }
+
+        <div *ngIf="isShowCommentsOpen" class="comments-container" [@fadeInOut]> 
+            
+            <div class="comments-content" [ngClass]="{'comments-content-padding': replyToCommentIsOpen}">
+                
+                <p *ngIf="postComments?.length === 0" class="p-no-comments">No comments yet</p> 
+                @for (comment of postComments; track comment; let commentIndex = $index) {
+                    <div class="comment">
+                        <img *ngIf="!comment.authorImage" src="./assets/images/guest.png" alt="comment-image">
+                        <img *ngIf="comment.authorImage" [src]="comment.authorImage" alt="comment-image">
+                        <div class="comment-info">
+                            <p>{{comment.author}}</p>
+                            <p class="posted-date-comment">{{comment.commentDate| date: 'y-MMMM-dd' }} at {{ comment.commentDate| date: 'HH:mm' }}</p>
+                            <p>{{comment.content}}</p>
+                            <div>
+                                <div class="comment-interactions-layout">
+                                    <div class="comment-interactions">
+                                        <div (click)="likeComment(comment)">
+                                            <i id="thumbsUp{{commentIndex}}" [ngClass]="{'isPostLiked':comment.isLiked}" class="fa-regular fa-thumbs-up"></i>
+                                            <p [ngClass]="{'isPostLiked':comment.isLiked}">Like ({{comment.commentLikes}})</p>
+                                        </div>
+                                        <div (click)="openReplyInterface(comment.author,
+                                                                        comment.commentId,
+                                                                        comment.authorId)">
+                                            <i class="fa-regular fa-comment"></i>
+                                            <p>Reply</p>
+                                        </div>
+                                    </div>
+                                    <input type="number" [id]="commentIndex" #commentIndexRef hidden [value]="0">
+                                    
+                                    <div *ngIf="comment.repliesNumber > 0">
+                                        <p #commentParagraph [id]="commentIndex" class="show-replies loading-replies-paragraph{{comment.commentId}}" (click)="getCommentReplies(comment, commentIndex);">Expand replies to this comment ({{comment.repliesNumber}})
+                                            <i class="fa fa-spinner fa-spin" hidden style="margin-left: .5rem;" #getCommentRepliesSpinner [attr.commentId]="comment.commentId"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--Comment replies solo se carga por demanda -->
+                                @for (reply of comment.commentReplies; track reply; let replyIndex = $index) {
+                                <div class="comment-replies-container">
+                                    <img *ngIf="!reply.imageUrl" src="./assets/images/guest.png" alt="img profile pic">
+                                    <img *ngIf="reply.imageUrl" [src]="reply.imageUrl" alt="img profile pic">
+                                    <div class="reply-info">
+                                        <div class="reply-user-info">
+                                            <p>{{reply.authorUsername}}</p>
+                                            <p class="posted-date-comment">{{reply.repliedAt| date: 'y-MMMM-dd'}} at {{reply.repliedAt| date: 'HH:mm'}}</p>
+                                            <p>Replying to <span>{{reply.replyingToUsername}}</span></p>
+                                        </div>
+                                        <div>
+                                            <p style="font-weight: normal;">{{reply.content}}</p>
+                                            <div class="comment-interactions">
+                                                <div (click)="likeReply(reply)">
+                                                    <i id="replythumbsIcon{{commentIndex}}{{replyIndex}}" [ngClass]="{'isPostLiked':reply.isLikedByUser}" class="fa-regular fa-thumbs-up"></i>
+                                                    <p id="replyComment{{commentIndex}}{{replyIndex}}" [ngClass]="{'isPostLiked':reply.isLikedByUser}">Like ({{reply.replyLikes}})</p>
+                                                </div>
+                                                <div (click)="openReplyInterface(reply.authorUsername,
+                                                                                reply.commentId,
+                                                                                reply.userId
+                                                                                )">
+                                                    <i class="fa-regular fa-comment"></i>
+                                                    <p>Reply</p>
+                                                </div>
+                                                <div *ngIf="reply.isReplyOwner" class="delete-reply-container" (click)="deleteReply(reply.commentId, reply.id)">
+                                                    <i class="fa-regular fa-trash-can"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        <div *ngIf="comment.isCommentOwner" class="delete-comment-container" (click)="deleteComment(comment.commentId, comment.postId)">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </div>
+                    </div>
+                    <p [class.no-clicks]="!hasComments" 
+                    id="more-comments-paragraph" 
+                    class="more-comments-paragraph" 
+                    (click)="loadMoreComments(comment.postId)">
+                        <span *ngIf="hasComments">Check for more comments <i *ngIf="isCheckingMoreComments" class="fa fa-spinner fa-spin"></i></span> 
+                        <span *ngIf="!hasComments">No more comments</span>
+                    </p>
+                }
+                <div *ngIf="replyToCommentIsOpen" class="reply-comment-interface" [@fadeInOut]>
+                    <div>
+                        <p>Replying to <span>{{interfaceData!.username}}</span></p>
+                        <textarea maxlength="150" #t placeholder="Reply to a comment"></textarea>
+                    </div>
+                    <i *ngIf="!isReplying" (click)="sendReply(t)" class="fa-regular fa-paper-plane"></i>
+                    <i *ngIf="isReplying" class="fa fa-spinner fa-spin"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div *ngIf="isShowCommentsOpen" (click)="closeComments()" class="focus-comments" [@fadeInOut]></div>
+
+<div #fac class="focus-adding-comment hci" [@fadeInOut]></div>
+
+

@@ -1,0 +1,25 @@
+<div class="register-container">
+
+    <p class="random-account-paragraph" (click)="randomizedAccount()">Random account</p>
+
+    <div class="register-content">
+        <h1>Register BookMe</h1>
+        <form [formGroup]="registerForm!" (submit)="onSubmit()">
+
+            <input type="text" placeholder="Username" formControlName="username">
+            
+            <div class="password-container">
+                <input [type]="isVisible?'text':'password'" placeholder="Password" formControlName="password">
+                <div class="register-icons" (click)="showPassword()">
+                    <i *ngIf="!isVisible" class="fa-regular fa-eye"></i>
+                    <i *ngIf="isVisible" class="fa-regular fa-eye-slash"></i>
+                </div>
+            </div>
+
+            <button [ngClass]="{'disableButton':authService.isRegistering}" type="submit">Submit <i *ngIf="authService.isRegistering" class="fa fa-spinner fa-spin"></i></button>
+            <p routerLink="bookme/auth/register">Already have an account? <a class="spans" routerLink="/bookme/auth/login">Login here</a></p>
+        </form>
+
+    </div>
+
+</div>
